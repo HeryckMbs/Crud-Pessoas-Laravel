@@ -4,11 +4,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Laravel</title>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Fonts -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     @notifyCss
     <!-- Styles -->
@@ -401,91 +407,231 @@
     <style>
         body {
             font-family: 'Nunito', sans-serif;
-            color: white
         }
 
-        h1 {
-            color: white
+        #custom-target {
+            position: relative;
+            width: 600px;
+            height: 300px;
+            border-style: solid;
+        }
+
+        .position-absolute {
+            position: absolute !important;
+        }
+
+        s h1 {
+            font-size: 40px
         }
     </style>
 </head>
 
-<body class="antialiased">
-    <div class=" dark:bg-gray-900 ">
-        <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-12">
-                        <h1> Cadastro de Pessoa</h1>
-                        <label for="">Nome</label>
-                        <input class="form-control" name="nome" type="text" placeholder="Nome">
-                        <label for="">CPF</label>
-                        <input class="form-control" name="nome" type="text" placeholder="CPF">
+<body class="antialiased dark:bg-gray-900 ">
+
+
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                        </div><!-- /.col -->
+                        <div class="col-sm-6 d-flex justify-content-end">
+                        </div>
                     </div>
+
+                    <!-- /.row -->
                 </div>
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <button class="btn btn-primary text-center">Gravar</button>
+
+                <!-- /.container-fluid -->
+            </div>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-12 form-group">
+                                                    <h1>Cadastro de Pessoa</h4>
+
+                                                        <div class="mb-3">
+                                                            <label for="">Nome</label>
+                                                            <input class="form-control" name="nome" id="nome"
+                                                                type="text" placeholder="Nome">
+                                                        </div>
+                                                        <div class="mb-3"><label for="">CPF</label>
+                                                            <input class="form-control" name="cpf" id="cpf"
+                                                                type="text" placeholder="CPF">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <button id="enviar" type="button"
+                                                                class="btn btn-primary text-center">Gravar</button>
+
+                                                        </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="col-6">
+                                            <h3>Telefones </h3>
+                                            <table
+                                                class="table table-responsive table-bordered border-success table-striped">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>Telefone</th>
+                                                        <th>Descrição</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for ($a = 1; $a <= 5; $a++)
+                                                        <tr>
+
+                                                            <td><input type="text" name="tel{{ $a }}"
+                                                                    class="form-control telefones"
+                                                                    placeholder="Telefone {{ $a }}">
+                                                            </td>
+                                                            <td><input type="text" name="telDesc{{ $a }}"
+                                                                    class="form-control telefonesDescricao"
+                                                                    placeholder="Descrição {{ $a }}">
+                                                            </td>
+                                                        </tr>
+                                                    @endfor
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h1> Dados Gravados</h1>
+                                                <table class="table table-responsive table-dark">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">Nome</th>
+                                                            <th class="text-center ">Cpf</th>
+                                                            <th class="text-center">Telefone - Descrição</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="conteudo">
+
+                                                        @foreach ($pessoasCadastradas as $pessoa)
+                                                            <tr>
+                                                                <td class="text-center align-middle">{{ $pessoa->nome }}
+                                                                </td>
+                                                                <td class="text-center  align-middle">
+                                                                    {{ $pessoa->cpf }}</td>
+                                                                <td class="text-center align middle">
+                                                                    @foreach ($pessoa->telefones as $telefone)
+                                                                        {{ $telefone->telefone . '-' . $telefone->descricao }}
+                                                                        <br>
+                                                                    @endforeach
+                                                                </td>
+
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!-- /.row -->
                 </div>
+                <!-- /.
+                    container-fluid -->
 
-            </div>
-            <div class="col-6">
-                <h3>Telefones </h3>
-                <table class="table table-responsive table-dark">
-                    <thead>
-                        <tr>
-                            <th>Telefone</th>
-                            <th>Descrição</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($a = 1; $a <= 5; $a++)
-                            <tr>
-
-                                <td><input type="text" name="tel{{ $a }}" class="form-control"
-                                        placeholder="Telefone {{ $a }}">
-                                </td>
-                                <td><input type="text" name="telDesc{{ $a }}" class="form-control"
-                                        placeholder="Descrição {{ $a }}">
-                                </td>
-                            </tr>
-                        @endfor
-                    </tbody>
-
-                </table>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <h1> Dados Gravados</h1>
-                <table class="table table-responsive table-dark">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Cpf</th>
-                            <th>Telefone - Descrição</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
-
     {{-- @include('notify::messages') --}}
     // Laravel 7 or greater
     <x:notify-messages />
     @notifyJs
+    <script>
+        $('#enviar').on('click', function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+
+            let telefones = {}
+            let index = 1;
+            for (telefone of $('.telefones')) {
+                telefones[index] = telefone.value
+
+                index++
+            }
+            index = 1;
+            let telefonesDescricao = {};
+            for (telefoneDescricao of $('.telefonesDescricao')) {
+                telefonesDescricao[index] = telefoneDescricao.value
+
+                index++
+            }
+            let allTelefones = Object.assign({}, telefones, telefonesDescricao)
+
+            $.ajax({
+                method: "POST",
+                url: '{{ route('cadastra.pessoa') }}',
+                data: {
+                    nome: $('#nome').val(),
+                    cpf: $('#cpf').val(),
+                    telefones: telefones,
+                    descricao: telefonesDescricao
+                }
+
+
+            }).done(function(response) {
+                console.log(response)
+                if (response.success === false) {
+                    Swal.fire({
+                        text: response.msg,
+                        target: '#custom-target',
+                        customClass: {
+                            container: 'position-absolute'
+                        },
+                        toast: true,
+                        position: 'top-right'
+                    })
+                } else if (response.success == true) {
+                    Swal.fire({
+                        text: response.msg,
+                        target: '#custom-target',
+                        customClass: {
+                            container: 'position-absolute'
+                        },
+                        toast: true,
+                        position: 'bottom-right'
+                    })
+                    let tr =
+                        `<tr><td class="text-center  align-middle">${response.pessoa.nome}</td><td class="text-center  align-middle">${response.pessoa.cpf}</td><td>`
+
+
+                    for (telefone of response.telefones) {
+                        console.log(telefone)
+                        tr += `${telefone.telefone} - ${telefone.descricao}<br>`
+
+                    }
+                    tr += '</td></tr>'
+                    console.log($('#conteudo'))
+                    $('#conteudo').append(tr)
+                }
+            })
+        })
+    </script>
 </body>
 
 </html>

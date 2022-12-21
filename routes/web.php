@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Pessoa;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PessoaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     notify()->success('Welcome to Laravel Notify ⚡️');
-    return view('welcome');
+    $pessoasCadastradas = Pessoa::with('telefones')->get();
+
+    return view('welcome', compact('pessoasCadastradas'));
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/salvarpessoa', [PessoaController::class, 'storePessoa'])->name('cadastra.pessoa');

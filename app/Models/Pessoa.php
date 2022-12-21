@@ -9,7 +9,10 @@ class Pessoa extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome',
-        'CPF'
-    ];
+    protected $fillable = ['nome','cpf'];
+
+    public function telefones()
+    {
+        return $this->hasMany(Telefone::class, 'pessoa_id', );
+    }
 }
