@@ -6,6 +6,7 @@
         -Cada pessoa poderá haver n contatos de telefone
 ## Sobre o Projeto
     -Zerei o .gitignore apenas para ficar mais fácil executar o projeto
+    -Existe outra branch chamada GitIgnoreNotEmpty onde o .gitignore está configurado como vem por padrão
     -Foram utilizadas as seguintes ferramentas 
         -Laravel 8.83.27
         -Migrations para criação de tabelas
