@@ -17,6 +17,7 @@ class CreatePessoasTable extends Migration
             $table->id();
             $table->string('nome', 50);
             $table->string('cpf');
+            $table->text('endereco');
             $table->timestamps();
         });
     }

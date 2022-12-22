@@ -16,7 +16,6 @@ use App\Http\Controllers\PessoaController;
 */
 
 Route::get('/', function () {
-    notify()->success('Welcome to Laravel Notify ⚡️');
     $pessoasCadastradas = Pessoa::with('telefones')->get();
 
     return view('welcome', compact('pessoasCadastradas'));

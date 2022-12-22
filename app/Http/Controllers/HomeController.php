@@ -26,4 +26,10 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function principal()
+    {
+        $pessoasCadastradas = Pessoa::with('telefones')->get();
+        return view('welcome', compact('pessoasCadastradas'));
+    }
 }
