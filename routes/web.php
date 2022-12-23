@@ -25,7 +25,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::group(['prefix' => 'pessoa'], function () {
-    Route::get('/{id}', [PessoaController::class, 'getPessoa'])->name('get.pessoa');
+    Route::get('/get/{id}', [PessoaController::class, 'getPessoa'])->name('get.pessoa');
     Route::put('/{id}', [PessoaController::class, 'updatePessoa'])->name('get.pessoa');
     Route::post('/salvar', [PessoaController::class, 'storePessoa'])->name('cadastra.pessoa');
     Route::delete('/delete/{id}', [PessoaController::class, 'deletePessoa'])->name('delete.pessoa');

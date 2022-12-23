@@ -105,11 +105,11 @@ class PessoaController extends Controller
         }
     }
 
-    public function getPessoa(int $id)
+    public function getPessoa($idUpdate)
     {
         try {
-            $pessoa = Pessoa::findOrFail($id)->with(['telefones'])->first();
-            return ['msg' => '', 'pessoa' =>$pessoa,'success' => true];
+            $pessoa = Pessoa::findOrFail($idUpdate);
+            return ['msg' => '', 'pessoa' =>$pessoa,'telefones' => $pessoa->telefones,'success' => true];
         } catch(\Exception $e) {
             return ['msg' => 'Não foi possível buscar a pessoa', 'success' => false];
         }

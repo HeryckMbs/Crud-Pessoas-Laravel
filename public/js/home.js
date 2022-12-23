@@ -189,8 +189,8 @@ function deletePessoa(idPessoa) {
     })
 }
 
-function getPessoa(idPessoa) {
-    let url = `/pessoa/${idPessoa}`
+function getPessoa(idPessoaUpdate) {
+    let url = `/pessoa/get/${idPessoaUpdate}`
     $.ajax({
         method: 'GET',
         url: url
@@ -204,7 +204,7 @@ function getPessoa(idPessoa) {
             let telefones1 = $('.telefones');
             let telefonesDescricao1 = $('.telefonesDescricao')
 
-            for (telefone of response.pessoa.telefones) {
+            for (telefone of response.telefones) {
                 telefones1[index].value = telefone.telefone;
                 telefonesDescricao1[index].value = telefone.descricao
                 index++
