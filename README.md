@@ -5,7 +5,8 @@
         -Outra para controle dos respectivos contatos de telefone da pessoa com os atribytos telefone e descrição do telefone
         -Cada pessoa poderá haver n contatos de telefone
 ## Sobre o Projeto
-    -Zerei o .gitignore apenas para ficar mais fácil executar o projeto
+    Existem duas branches, uma com o git ignore zerado levando todos os arquivos utilizados localmente no projeto
+    E outra com o gitignore padrão
     -Foram utilizadas as seguintes ferramentas 
         -Laravel 8.83.27
         -Migrations para criação de tabelas
